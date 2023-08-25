@@ -176,18 +176,18 @@ async def recognize(request: Request):
 
 @app.post("/predict")
 async def predict(file: UploadFile):
-    try:
-        image_data = await file.read()
-        result = predict_image(base64.b64decode(image_data))
-	if result == "Human":
-		with open("captured_image.jpg", "wb") as f:
-			f.write(base64.b64decode(image_data))
-		cloudinary_url = upload_to_cloudinary("captured_image.jpg")
-		print(cloudinary_url)
-		return {"prediction": result, "message": "Image saved", "cloudinary_url": cloudinary_url}
-	else:
-		return {"prediction": result, "message": "Try again"}
+	try:
+		image_data = await file.read()
+		result = predict_image(base64.b64decode(image_data))
+		if result == "Human":
+			with open("captured_image.jpg", "wb") as f:
+				f.write(base64.b64decode(image_data))
+			cloudinary_url = upload_to_cloudinary("captured_image.jpg")
+			print(cloudinary_url)
+			return {"prediction": result, "message": "Image saved", "cloudinary_url": cloudinary_url}
+		else:
+			return {"prediction": result, "message": "Try again"}
         
-    except Exception as err:
-        return {"prediction": "no prediction", "message": str(err), "data":str(data)}
+    	except Exception as err:
+        	return {"prediction": "no prediction", "message": str(err), "data":str(data)}
 
