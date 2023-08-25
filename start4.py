@@ -188,6 +188,6 @@ async def predict(file: UploadFile):
 		else:
 			return {"prediction": result, "message": "Try again"}
         
-    	except Exception as err:
+	except Exception as err:
         	return {"prediction": "no prediction", "message": str(err), "data":str(data)}
 
