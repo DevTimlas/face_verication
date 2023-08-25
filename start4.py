@@ -156,12 +156,15 @@ def upload_to_cloudinary(image_path):
 
 @app.post("/recognize")
 async def recognize(request: Request):
+	data = await request.json()
 	try:
-		data = await request.json()
+		
 		
 		print(f"dadd====>> {data}")
+		# image_data = data['image'].split(",")[1].encode('utf-8')
+		# result = predict_image(io.BytesIO(base64.b64decode(image_data)))
 		image_data = data['image'].split(",")[1].encode('utf-8')
-		result = predict_image(io.BytesIO(base64.b64decode(image_data)))
+    		result = predict_image(io.BytesIO(base64.b64decode(image_data)))
 		if result == "Human":
 			with open("captured_image.jpg", "wb") as f:
 			    f.write(base64.b64decode(image_data))
@@ -171,4 +174,4 @@ async def recognize(request: Request):
 		else:
 			return {"prediction": result, "message": "Try again"}
 	except Exception as err:
-		return {"prediction": "no prediction", "message": str(err)}
+		return {"prediction": "no prediction", "message": str(err), "data":str(data)}
