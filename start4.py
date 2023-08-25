@@ -158,6 +158,8 @@ def upload_to_cloudinary(image_path):
 async def recognize(request: Request):
 	try:
 		data = request.body()
+		print(request.json())
+		print(data)
 		image_data = data['image'].split(",")[1].encode('utf-8')
 		result = predict_image(io.BytesIO(base64.b64decode(image_data)))
 		if result == "Human":
