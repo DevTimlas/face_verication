@@ -54,7 +54,7 @@ def predict_emotion():
         	cloudinary_url = upload_to_cloudinary("captured_image.jpg")
         	
         if cloudinary_url is not None:
-        	response = {"pred": pred, "image_url":cloudinary_url}
+        	response = {"image_url":cloudinary_url}
         else:
         	response = {"pred": pred}
         return jsonify(response), 200
