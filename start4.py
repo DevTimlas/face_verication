@@ -76,7 +76,7 @@ async def read_root():
 					const image = canvas.toDataURL('image/jpeg');
 					fetch('/recognize', {
 						method: 'POST',
-						body: JSON.stringify({ image }),
+						body: JSON.stringify({"image" :image }),
 						headers: { 'Content-Type': 'application/json' }
 					})
 					.then(response => response.json())
