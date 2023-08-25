@@ -157,8 +157,8 @@ def upload_to_cloudinary(image_path):
 @app.post("/recognize")
 async def recognize(request: Request):
 	try:
-		data = request.body()
-		print(request.json())
+		data = await request.json()
+		
 		print(data)
 		image_data = data['image'].split(",")[1].encode('utf-8')
 		result = predict_image(io.BytesIO(base64.b64decode(image_data)))
