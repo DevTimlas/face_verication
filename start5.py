@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile,Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import StreamingResponse
@@ -142,9 +142,11 @@ def upload_to_cloudinary(image_path):
 	
 
 @app.post("/recognize")
-async def recognize(image: dict):
-    image_data = image['image'].split(",")[1].encode('utf-8')
-    result = predict_image(io.BytesIO(base64.b64decode(image_data)))
+async def recognize(request: Request):
+    data = request.get_data()
+    image_data = base64.b64decode(data.split(",")[1])
+    image = io.BytesIO(image_data)
+    result = predict_image(image)
     if result == "Human":
         with open("captured_image.jpg", "wb") as f:
             f.write(base64.b64decode(image_data))
