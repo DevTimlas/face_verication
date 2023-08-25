@@ -174,10 +174,6 @@ async def recognize(request: Request):
 	except Exception as err:
 		return {"prediction": "no prediction", "message": str(err), "data":str(data)}
 
-from fastapi import FastAPI, File, UploadFile
-
-app = FastAPI()
-
 @app.post("/predict")
 async def predict(file: UploadFile):
     try:
