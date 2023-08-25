@@ -6,14 +6,15 @@ import io
 import uvicorn
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import img_to_array
+import cloudinary
+from cloudinary.uploader import upload
+import base64
 
 app = Flask(__name__)
 CORS(app)
 
 model = tf.keras.models.load_model('last_face_model.h5', compile=False)
 
-import cloudinary
-from cloudinary.uploader import upload
 
 # Configure Cloudinary with your credentials
 cloudinary.config( 
@@ -36,6 +37,7 @@ def predict_emotion():
         frame = cv2.imdecode(arr, cv2.IMREAD_COLOR)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)        
         img = cv2.resize(gray, (224, 224))
+        img_to_save = cv2.resize(frame, (224, 224))
         img = img_to_array(img)
         img = np.expand_dims(img, axis=0)
         prediction = model.predict(img)
@@ -44,7 +46,17 @@ def predict_emotion():
         print(prediction)
         # prediction = np.argmax(prediction)
         pred = "Human" if prediction < 0.05 else "Non-Human"
-        response = {"pred": pred}
+        cloudinary_url = ""
+        if pred == "Human":
+        	# f = open('captured_image.jpg', 'wb')
+        	# f.write(frame)
+        	cv2.imwrite('captured_image.jpg', img_to_save)
+        	cloudinary_url = upload_to_cloudinary("captured_image.jpg")
+        	
+        if cloudinary_url is not None:
+        	response = {"pred": pred, "image_url":cloudinary_url}
+        else:
+        	response = {"pred": pred}
         return jsonify(response), 200
     except Exception as e:
     	print(e)
