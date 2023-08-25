@@ -12,6 +12,21 @@ CORS(app)
 
 model = tf.keras.models.load_model('last_face_model.h5', compile=False)
 
+import cloudinary
+from cloudinary.uploader import upload
+
+# Configure Cloudinary with your credentials
+cloudinary.config( 
+	  cloud_name = "dcysfieol", 
+	  api_key = "851589193853581", 
+	  api_secret = "J2FZWZLTigmfpt9VEozTm7tbzFE" 
+	)
+
+def upload_to_cloudinary(image_path):
+    response = upload(image_path)
+    return response['secure_url']  # Return the URL of the uploaded image
+
+
 @app.route('/predict_face', methods=['POST'])
 def predict_emotion():
     try:
