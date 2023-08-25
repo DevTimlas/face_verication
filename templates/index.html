@@ -12,12 +12,14 @@
                 const canvas = document.getElementById('canvas');
                 const recognizeButton = document.getElementById('recognize');
                 const constraints = { video: true };
+             
                 recognizeButton.addEventListener('click', () => {
                     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
                     const image = canvas.toDataURL('image/jpeg');
+                  const data = JSON.stringify({ image: image });
                     fetch('/recognize', {
                         method: 'POST',
-                        body: JSON.stringify({ image }),
+                        body: data,
                         headers: { 'Content-Type': 'application/json' }
                     })
                     .then(response => response.json())
