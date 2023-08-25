@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile,Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import StreamingResponse
@@ -155,17 +155,19 @@ def upload_to_cloudinary(image_path):
 	
 
 @app.post("/recognize")
-async def recognize(image: dict = Body(...)):
+async def recognize(request: Request):
 	try:
-		image_data = image['image'].split(",")[1].encode('utf-8')
-		result = predict_image(io.BytesIO(base64.b64decode(image_data)))
-		if result == "Human":
-			with open("captured_image.jpg", "wb") as f:
-			    f.write(base64.b64decode(image_data))
-			cloudinary_url = upload_to_cloudinary("captured_image.jpg")
-			print(cloudinary_url)
-			return {"prediction": result, "message": "Image saved", "cloudinary_url": cloudinary_url}
-		else:
-			return {"prediction": result, "message": "Try again"}
+		data = request.body()
+		# image_data = image['image'].split(",")[1].encode('utf-8')
+		# result = predict_image(io.BytesIO(base64.b64decode(image_data)))
+		# if result == "Human":
+		# 	with open("captured_image.jpg", "wb") as f:
+		# 	    f.write(base64.b64decode(image_data))
+		# 	cloudinary_url = upload_to_cloudinary("captured_image.jpg")
+		# 	print(cloudinary_url)
+		# 	return {"prediction": result, "message": "Image saved", "cloudinary_url": cloudinary_url}
+		# else:
+		# 	return {"prediction": result, "message": "Try again"}
+		return str(data)
 	except Exception as err:
 		return {"prediction": "no prediction", "message": str(err)}
