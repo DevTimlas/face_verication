@@ -182,7 +182,7 @@ app = FastAPI()
 async def predict(file: UploadFile):
     try:
         image_data = await file.read()
-        result = predict_image(image_data)
+        result = predict_image(base64.b64decode(image_data))
 	if result == "Human":
 		with open("captured_image.jpg", "wb") as f:
 			f.write(base64.b64decode(image_data))
