@@ -46,6 +46,7 @@ def predict_emotion():
         print(prediction)
         # prediction = np.argmax(prediction)
         pred = "Human" if prediction < 0.05 else "Non-Human"
+	"""
         cloudinary_url = ""
         if pred == "Human":
         	# f = open('captured_image.jpg', 'wb')
@@ -54,9 +55,11 @@ def predict_emotion():
         	cloudinary_url = upload_to_cloudinary("captured_image.jpg")
         	
         if cloudinary_url is not None:
-        	response = {"image_url":cloudinary_url}
+        	response = {"pred":cloudinary_url}
         else:
         	response = {"pred": pred}
+	 """
+	response = {"pred": pred}
         return jsonify(response), 200
     except Exception as e:
     	print(e)
