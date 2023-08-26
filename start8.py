@@ -42,24 +42,17 @@ def predict_emotion():
         img = np.expand_dims(img, axis=0)
         prediction = model.predict(img)
         prediction = prediction[0][0]
-        # prediction = tf.nn.softmax(prediction)
         print(prediction)
-        # prediction = np.argmax(prediction)
         pred = "Human" if prediction < 0.05 else "Non-Human"
-	"""
-        cloudinary_url = ""
-        if pred == "Human":
-        	# f = open('captured_image.jpg', 'wb')
-        	# f.write(frame)
-        	cv2.imwrite('captured_image.jpg', img_to_save)
-        	cloudinary_url = upload_to_cloudinary("captured_image.jpg")
-        	
-        if cloudinary_url is not None:
-        	response = {"pred":cloudinary_url}
-        else:
-        	response = {"pred": pred}
-	 """
-	response = {"pred": pred}
+        # if pred == "Human":
+        #	 f = open('captured_image.jpg', 'wb')
+        #	 f.write(frame)
+        #	 cv2.imwrite('captured_image.jpg', img_to_save)
+        #	 cloudinary_url = upload_to_cloudinary("captured_image.jpg")
+		#    response = {"pred": pred, "image_url":cloudinary_url}
+        # else:
+        #	 response = {"pred": pred}
+        response = {"pred":pred}
         return jsonify(response), 200
     except Exception as e:
     	print(e)
