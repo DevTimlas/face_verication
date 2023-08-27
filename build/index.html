@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Face Mesh Implementation</title>
     <!-- Add Bootstrap CSS link -->
@@ -14,78 +15,106 @@
             border-radius: 8px;
             margin: 20px auto;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
-            max-width: 670px; /* Limit the container width */
-            max-height: 670px; /* Limit the container height */
-            position: relative; /* Line for relative positioning */
+            max-width: 670px;
+            /* Limit the container width */
+            max-height: 670px;
+            /* Limit the container height */
+            position: relative;
+            /* Line for relative positioning */
         }
 
         #video {
             visibility: hidden;
             -webkit-transform: scaleX(-1);
             transform: scaleX(-1);
-            width: 100%; /* Make the video responsive */
-            height: auto; /* Reset the height to prevent distortion */
+            width: 100%;
+            /* Make the video responsive */
+            height: auto;
+            /* Reset the height to prevent distortion */
             border: 1px solid #ddd;
             border-radius: 4px;
         }
+
         #canvas {
             visibility: visible;
             -webkit-transform: scaleX(-1);
             transform: scaleX(-1);
-            width: 100%; /* Make the video responsive */
-            height: auto; /* Reset the height to prevent distortion */
+            width: 100%;
+            /* Make the video responsive */
+            height: auto;
+            /* Reset the height to prevent distortion */
             border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        #verifyButton {
-            position: absolute; /* Position the button absolutely within the container */
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            margin-top: 10px;
+            border-radius: 15px;
         }
 
         #startButton {
-            position: absolute; /* Position the button absolutely within the container */
+            position: absolute;
+            /* Position the button absolutely within the container */
             bottom: 10px;
             left: 50%;
             transform: translateX(-50%);
             margin-top: 10px;
         }
+
+
+        /* Loading indicator */
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            z-index: 1000;
+            opacity: 0.5;
+        }
+
+        .loading img {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div id="customContainer" class="text-center">
-            <canvas id="canvas"></canvas>
-            <video id="video" autoplay width="100%" height="30%"></video> <!-- Set width and height to match the container size -->
-            <p id="verifying"> verifying </p>
-            <button id="startButton" class="btn btn-primary">Start Verification</button>
-            <div>
-                <button id="verifyButton" class="btn btn-primary">Submit</button>
-            </div>
+            <img id="image" src="facee.jpg" class="img-fluid" width="100%" height="auto" alt="Responsive image" />
+            <canvas id="canvas" width="100%" height="auto%">
+                <video id="video" autoplay width="100%" height="auto%">               
+                </video>            
+            </canvas>
             
+            <button id="startButton" class="btn btn-primary">Start Verification</button>    
+            <div id="loading" class="loading">
+                <img src="loading.gif" alt="Loading">
+            </div>
         </div>
+
     </div>
-    
+
+    <script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js"></script>
+    <script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js"></script>
+    <script
+        src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu"></script> -->
+
+    <script>
+        $(document).ready(function () {
+            $("#loading").hide();
+            $("#canvas").hide();
+            $("#video").hide();
+        });
+    </script>
+    <script src="facee.js" defer></script>
+
+
 </body>
-<script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
-<script src="https://unpkg.com/@tensorflow/tfjs-converter@2.4.0/dist/tf-converter.js"></script>
-<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.4.0/dist/tf-backend-webgl.js"></script>
-<script src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu"></script> -->
 
-<script src="js/index.js" defer></script>
-
-<script>
-//    window.onload = function() {
-//     document.getElementById('verifyButton').style.display = 'none';
-//   };
-  $(document).ready(function() {
-    $("#verifyButton").hide();
-    $("#verifying").hide();
-});
-</script>
 </html>
