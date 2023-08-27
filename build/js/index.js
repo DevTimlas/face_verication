@@ -11,9 +11,14 @@ let videoWidth, videoHeight;
 let model; // Define the model variable
 let stopRendering = true; // Initialize the rendering flag
 
+// Check if CPU backend is available
+const isCpuBackendAvailable = tf.getBackend() === 'cpu';
+
+
 async function setupCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     video.srcObject = stream;
+       
     return new Promise((resolve) => {
         video.onloadedmetadata = () => {
             videoWidth = video.videoWidth;
@@ -21,8 +26,10 @@ async function setupCamera() {
             video.width = videoWidth;
             video.height = videoHeight;
             resolve(video);
+           
         };
     });
+    
 }
 
 async function setupCanvas() {
@@ -39,9 +46,10 @@ async function setupCanvas() {
 
 
 function hideStartButton() {
+
     $("#startButton").hide();
-    // $("#verifyButton").show();
-    // $("#verifying").show();
+     $("#loading").hide();
+ 
 }
 async function loadFaceLandmarkDetectionModel() {
     return faceLandmarksDetection
@@ -71,7 +79,7 @@ async function renderPrediction() {
         flipHorizontal: false,
         predictIrises: false
     });
-
+    
     ctx.drawImage(
         video, 0, 0, video.width, video.height, 0, 0, canvas.width, canvas.height,);
         
@@ -145,4 +153,5 @@ startButton.addEventListener("click", async () => {
     // Start rendering Face Mesh Prediction
     stopRendering = false;
     renderPrediction();
+
 });
