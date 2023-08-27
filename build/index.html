@@ -44,7 +44,16 @@
             height: auto;
             /* Reset the height to prevent distortion */
             border: 1px solid #ddd;
-            border-radius: 15px;
+            border-radius: 4px;
+        }
+
+        #verifyButton {
+            position: absolute;
+            /* Position the button absolutely within the container */
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 10px;
         }
 
         #startButton {
@@ -56,8 +65,6 @@
             margin-top: 10px;
         }
 
-
-        /* Loading indicator */
         .loading {
             position: absolute;
             top: 0;
@@ -83,19 +90,22 @@
 <body>
     <div class="container">
         <div id="customContainer" class="text-center">
-            <img id="image" src="assets/facee.jpg" class="img-fluid" width="100%" height="auto" alt="Responsive image" />
-            <canvas id="canvas" width="100%" height="auto%">
-                <video id="video" autoplay width="100%" height="auto%">               
-                </video>            
-            </canvas>
-            
-            <button id="startButton" class="btn btn-primary">Start Verification</button>    
-            <div id="loading" class="loading">
-                <img src="assets/loading.gif" alt="Loading">
-            </div>
-        </div>
+            <img id="imag" src="facee.jpg" class="img-fluid" width="100%" height="auto" alt="Responsive image" />
+            <canvas id="canvas" width="100%" height="30%">
 
+                <video id="video" autoplay width="100%" height="30%"></video>
+
+            </canvas>
+
+
+            <button id="startButton" class="btn btn-primary">Start Verification</button>
+            <div id="loading" class="loading">
+                <img src="loading.gif" alt="Loading">
+            </div>
+
+        </div>
     </div>
+
 
     <script src="https://unpkg.com/@tensorflow/tfjs-core@2.4.0/dist/tf-core.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
@@ -105,16 +115,26 @@
         src="https://unpkg.com/@tensorflow-models/face-landmarks-detection@0.0.1/dist/face-landmarks-detection.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu"></script> -->
 
+
+
     <script>
         $(document).ready(function () {
-            $("#loading").hide();
             $("#canvas").hide();
-            $("#video").hide();
+            $("#loading").hide();
         });
+
+        startButton.addEventListener("click", async () => {
+            $("#imag").hide();
+            $("#canvas").show();
+            $("#loading").show();
+            setTimeout(() => {
+                $("#loading").hide();
+                }, 5000);
+        });
+
     </script>
-    <script src="js/index.js" defer></script>
 
-
+    <script src="facee.js" defer></script>
 </body>
 
 </html>
